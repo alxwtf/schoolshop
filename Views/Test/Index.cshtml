@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Shop.Models.Product>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table>
+    <tr>
+        <td>Название товара</td>
+        <td>Цена</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>item.Name</td>
+            <td>item.Price</td>
+        </tr>
+    }
+</table>
+<h2>Index</h2>
+
