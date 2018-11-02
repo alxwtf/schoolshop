@@ -14,8 +14,8 @@ namespace Shop.Controllers
         ShopContext db;
         public IActionResult Index()
         {
-
-            return View();
+            var products = db.Products;
+            return View(products);
         }
     }
 }

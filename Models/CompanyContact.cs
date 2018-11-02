@@ -7,11 +7,11 @@ namespace Shop.Models
 {
     public class CompanyContact
     {
-        public int id { get; set; }
-        public int compID { get; set; }
-        public string phone { get; set; }
-        public string mail { get; set; }
-        public string site { get; set; }
+        public int Id { get; set; }
+        public int CompanyId { get; set; }
+        public string Phone { get; set; }
+        public string Mail { get; set; }
+        public string Site { get; set; }
 
         public Company Company { get; set; }
     }
