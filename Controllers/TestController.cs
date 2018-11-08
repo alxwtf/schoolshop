@@ -36,33 +36,11 @@ namespace Shop.Controllers
         [HttpPost]
         public IActionResult Confirm(int? id)
         {
-            var cart = db.Orders.Where(x => x.Id == id).FirstOrDefault();
-            if (cart != null)
-            {
-                var item = db.OrderItems.Where(x => x.ProductId == (int)TempData["productid"] && x.OrderId == id).FirstOrDefault();
-                if (item != null)
-                {
-                    item.Count++;
-                }
-                else
-                {
-                    var additem = new OrderItem();
-                    additem = new OrderItem
-                    {
-                        ProductId = (int)TempData["productid"],
-                        OrderId = cart.Id,
-                        Count = 1,
-
-                    };
-                    db.OrderItems.Add(additem);
-                }
-            }
-            else if (id == null)
+            if (id == null)
             {
                 var CountCarts = db.Orders.Select(x => x.Number).Count();
                 CountCarts++;
-                var order = new Order();
-                order = new Order
+                var order = new Order
                 {
                     Number = CountCarts.ToString(),
                     Items = new List<OrderItem>
@@ -76,7 +54,25 @@ namespace Shop.Controllers
                 };
                 db.Orders.Add(order);
             }
+            else
+            {
+                var item = db.OrderItems.Where(x => x.ProductId == (int)TempData["productid"] && x.OrderId == id).FirstOrDefault();
+                if (item != null)
+                {
+                    item.Count++;
+                }
+                else
+                {
+                    var additem = new OrderItem
+                    {
+                        ProductId = (int)TempData["productid"],
+                        OrderId = (int)id,
+                        Count = 1,
 
+                    };
+                    db.OrderItems.Add(additem);
+                }
+            }
             db.SaveChanges();
             TempData.Clear();
             return RedirectToAction("index");
