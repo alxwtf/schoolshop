@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
 }
 
-<table>
+<table class="table table-bordered">
     <tr>
         <td>Название товара</td>
         <td>Цена</td>
@@ -12,10 +12,15 @@
     {
 
         <tr>
-            <td>item.Name</td>
-            <td>item.Price</td>
+            <td>@item.Name</td>
+            <td>@item.Price руб.</td>
+            <td><a href="/test/addtocart/@(item.Id)" class="btn btn-primary" id=@item.Id>Добавить в корзину</a></td>
         </tr>
-    }
+        }
+        <tr>
+            <td><a href="/test/cart/" class="btn btn-primary">Посмотреть содержимое одной корзины</a></td>
+            <td><a href="/order/" class="btn btn-primary">Посмотреть содержимое всех корзин</a></td>
+        </tr>
 </table>
 <h2>Index</h2>
 

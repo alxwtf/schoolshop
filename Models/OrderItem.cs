@@ -2,14 +2,14 @@
 {
     public class OrderItem
     {
-        private OrderItem()
-        { }
+        //private OrderItem()
+        //{ }
 
-        public OrderItem(Product product, int count)
-        {
-            Product = product;
-            Count = count;
-        }
+        //public OrderItem(Product product, int count)
+        //{
+        //    Product = product;
+        //    Count = count;
+        //}
 
         public int Id { get; set; }
         public int ProductId { get; set; }

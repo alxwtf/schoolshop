@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Shop.Models.Order>
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<p>Выберите корзину</p>
+<form asp-action="ShowCartItems"
+      data-ajax="true"
+      data-ajax-mode="replace"
+      data-ajax-update="#results"
+      data-ajax-method="post">
+    <p><select name="id">
+        @foreach (var orders in Model)
+        {
+            <option value=@orders.Id name="id">@orders.Number</option>
+        }
+    </select></p>
+    <p><input type="submit" value="Показать" class="btn btn-warning"></p>
+    <div id="results"></div>
+</form>
+

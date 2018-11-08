@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Shop.Models.Order>
+@{
+    ViewData["Title"] = "Cart";
+}
+
+Выберите корзину:<form class="form" asp-action="Confirm" method="post">
+                     <select name="id">
+                         <option value=null name="id" selected>Новая корзина</option>
+                         @foreach (var orders in Model)
+                         {
+
+                             <option value=@orders.Id name="id">@orders.Number</option>
+                         }
+                     </select>
+    <input type="submit" class="btn btn-info" value="Подтвердить">
+</form>
+<h2>Cart</h2>
+
