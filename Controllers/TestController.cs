@@ -106,7 +106,7 @@ namespace Shop.Controllers
             return PartialView(viewModel);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Check(int id)
         {
             var model = db.Orders

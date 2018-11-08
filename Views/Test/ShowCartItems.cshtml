@@ -22,6 +22,10 @@
                 </tr>
             }
         </table>
-        <a href="/Test/Check/@(cart.CartId)" id=@cart.CartId class="btn btn-success">Распечатать чек</a>
-    }
+<form asp-action="Check" method="Post">
+    <input type="text" name="id" value=@cart.CartId hidden="hidden" />
+    <button type="submit">Оформить заказ</button>
+</form>
+        }
 </div>
+<script src="~/js/site.js" asp-append-version="true"></script>
