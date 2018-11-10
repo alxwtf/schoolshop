@@ -1,17 +1,22 @@
-﻿@model IEnumerable<Shop.Models.Order>
+﻿@model IEnumerable<Shop.ViewModels.ProductViewModel>
 @{
     ViewData["Title"] = "Cart";
 }
 
-Выберите корзину:<form class="form" asp-action="Confirm" method="post">
-                     <select name="id">
-                         <option value=null name="id" selected>Новая корзина</option>
-                         @foreach (var orders in Model)
-                         {
+Выберите корзину:
+<form class="form" asp-action="Confirm" method="post">
+    @foreach (var product in Model)
+    {
+        <input type="text" value=@product.ProductId hidden="hidden" name="ProdId">
+        <select name="id">
+            <option value=null name="id" selected>Новая корзина</option>
+            @foreach (var orders in product.Carts)
+            {
 
-                             <option value=@orders.Id name="id">@orders.Number</option>
-                         }
-                     </select>
+                <option value=@orders.CartId name="id">@orders.Number</option>
+            }
+        </select>
+}
     <input type="submit" class="btn btn-info" value="Подтвердить">
 </form>
 <h2>Cart</h2>

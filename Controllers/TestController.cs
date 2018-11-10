@@ -25,16 +25,34 @@ namespace Shop.Controllers
             return View(products);
         }
 
+        //[HttpGet]
+        //public IActionResult AddToCart(int id)
+        //{
+        //    //return View(order);
+        //    return RedirectToAction("AddtoCart", new {ProductId=id});
+        //}
         [HttpGet]
-        public IActionResult AddToCart(int id)
+        public IActionResult AddtoCart(int id)
         {
-            var order = db.Orders.ToList();
-            TempData["productid"] = id;
-            return View(order);
+            var product = db.Products.Where(x=>x.Id==id);
+            var model = db.Orders
+                .ToList();
+            var viewmodel = product
+                .Select(x => new ProductViewModel
+                {
+                    Carts = model
+                    .Select(y => new CartSelectViewModel
+                    {
+                        CartId=y.Id,
+                        Number=Int32.Parse(y.Number)
+                    }).ToList(),
+                    ProductId=x.Id
+                });
+            return View(viewmodel);
         }
 
         [HttpPost]
-        public IActionResult Confirm(int? id)
+        public IActionResult Confirm(int? id, int ProdId)
         {
             if (id == null)
             {
@@ -46,7 +64,7 @@ namespace Shop.Controllers
                     Items = new List<OrderItem>
                     {
                         new OrderItem{
-                        ProductId = (int)TempData["productid"],
+                        ProductId = ProdId,
                         OrderId = CountCarts,
                         Count = 1
                         }
@@ -56,7 +74,7 @@ namespace Shop.Controllers
             }
             else
             {
-                var item = db.OrderItems.Where(x => x.ProductId == (int)TempData["productid"] && x.OrderId == id).FirstOrDefault();
+                var item = db.OrderItems.Where(x => x.ProductId == ProdId && x.OrderId == id).FirstOrDefault();
                 if (item != null)
                 {
                     item.Count++;
@@ -65,10 +83,9 @@ namespace Shop.Controllers
                 {
                     var additem = new OrderItem
                     {
-                        ProductId = (int)TempData["productid"],
+                        ProductId = ProdId,
                         OrderId = (int)id,
                         Count = 1,
-
                     };
                     db.OrderItems.Add(additem);
                 }

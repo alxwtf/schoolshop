@@ -17,5 +17,7 @@ namespace Shop.ViewModels
         public List<CartItemsViewModel> items;
         public decimal TotalSum => items.Sum(x => x.TotalSum);
         public int CartId { get;set; }
+        public int Number { get;set; }
+        public ProductViewModel ProductInfo { get; set; }
     }
 }
