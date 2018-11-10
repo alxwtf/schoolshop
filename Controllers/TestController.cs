@@ -25,7 +25,8 @@ namespace Shop.Controllers
             return View(products);
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AddtoCart(int id)
         {
             var product = db.Products.Where(x=>x.Id==id);
@@ -46,6 +47,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Confirm(int? id, int ProdId)
         {
             if (id == null)
@@ -118,6 +120,7 @@ namespace Shop.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Check(int id)
         {
             var model = db.Orders
