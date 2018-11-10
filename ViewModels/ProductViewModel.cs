@@ -14,6 +14,5 @@ namespace Shop.ViewModels
     {
         public int CartId { get; set; }
         public int Number { get; set; }
-        public List<ProductViewModel> product { get; set; }
     }
 }

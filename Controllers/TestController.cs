@@ -25,12 +25,6 @@ namespace Shop.Controllers
             return View(products);
         }
 
-        //[HttpGet]
-        //public IActionResult AddToCart(int id)
-        //{
-        //    //return View(order);
-        //    return RedirectToAction("AddtoCart", new {ProductId=id});
-        //}
         [HttpGet]
         public IActionResult AddtoCart(int id)
         {
