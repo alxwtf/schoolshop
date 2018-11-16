@@ -29,44 +29,43 @@ namespace Shop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddtoCart(int id)
         {
-            var product = db.Products.Where(x=>x.Id==id);
+            var product = db.Products.Where(x => x.Id == id);
             var model = db.Orders
+                .Where(x=>x.Status==OrderStatus.NotPaid)
+                .OrderByDescending(x=>x.OrderDate)
                 .ToList();
             var viewmodel = product
                 .Select(x => new ProductViewModel
                 {
                     Carts = model
-                    .Select(y => new CartSelectViewModel
+                    .Select(y => new OrderSelectViewModel
                     {
-                        CartId=y.Id,
-                        Number=Int32.Parse(y.Number)
+                        CartId = y.Id,
+                        Number = y.Number
                     }).ToList(),
-                    ProductId=x.Id
-                });
-            return View(viewmodel);
+                    ProductId = x.Id
+                }).FirstOrDefault();
+            return PartialView(viewmodel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Confirm(int? id, int ProdId)
+        [HttpGet]
+        public ActionResult<bool> Confirm(int? id, int ProdId)
         {
             if (id == null)
             {
-                var CountCarts = db.Orders.Select(x => x.Number).Count();
-                CountCarts++;
                 var order = new Order
                 {
-                    Number = CountCarts.ToString(),
-                    Items = new List<OrderItem>
-                    {
-                        new OrderItem{
-                        ProductId = ProdId,
-                        OrderId = CountCarts,
-                        Count = 1
-                        }
-                    }
+                    Number = DateTime.Now.ToString("yyyyMMdd-HHmmss"),
+                    OrderDate = DateTime.Now
                 };
                 db.Orders.Add(order);
+                var item = new OrderItem
+                {
+                    ProductId = ProdId,
+                    OrderId = order.Id,
+                    Count = 1
+                };
+                db.OrderItems.Add(item);
             }
             else
             {
@@ -87,62 +86,8 @@ namespace Shop.Controllers
                 }
             }
             db.SaveChanges();
-            TempData.Clear();
-            return RedirectToAction("index");
+            return true;
         }
 
-        public IActionResult Cart(int id) {
-            var model = db.Orders.ToList();
-            return View(model);
-        }
-
-        public IActionResult ShowCartItems(int id) {
-            var model = db.Orders
-                .Include(x => x.Items)
-                .ThenInclude(y => y.Product)
-                .Where(x=>x.Id==id)
-                .ToList();
-            var viewModel = model
-                .Select(x =>
-                new CartViewModel
-                {
-                    CartId = x.Id,
-                    items = x.Items
-                        .Select(y => new CartItemsViewModel
-                        {
-                            Name = y.Product.Name,
-                            Price = y.Product.Price,
-                            Count = y.Count
-                        }
-                        ).ToList()
-                });
-            return PartialView(viewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Check(int id)
-        {
-            var model = db.Orders
-                .Include(x => x.Items)
-                .ThenInclude(y => y.Product)
-                .Where(x=>x.Id==id)
-                .ToList();
-            var viewModel = model
-                .Select(x =>
-                new CartViewModel
-                {
-                    CartId = x.Id,
-                    items = x.Items
-                        .Select(y => new CartItemsViewModel
-                        {
-                            Name = y.Product.Name,
-                            Price = y.Product.Price,
-                            Count = y.Count
-                        }
-                        ).ToList()
-                });
-            return View(viewModel);
-        }
     }
 }

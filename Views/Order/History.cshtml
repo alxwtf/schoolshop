@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Shop.ViewModels.OrderViewModel>
 
 @{
-    ViewData["Title"] = "Корзина";
+    ViewData["Title"] = "История заказов";
 }
 <div>
-    <a href="/order/history" class="btn btn-primary">Посмотреть историю заказов</a>
+    <a href="/order/" class="btn btn-primary">Посмотреть содержимое корзины</a>
 </div>
 @foreach (var order in Model)
 {
@@ -31,14 +31,5 @@
                 <td>@item.TotalSum руб.</td>
             </tr>
         }
-        <tr>
-            <td><button onclick="pay(@order.Id)" class="btn btn-success">Оплатить</button></td>
-        </tr>
     </table>
 }
-
-<environment>
-    <script src="~/Scripts/CartFunctions.js"></script>
-</environment>
-
-

@@ -11,6 +11,8 @@ namespace Shop.ViewModels
         public string Number { get; set; }
         public List<OrderItemViewModel> OrderItems { get; set; }
         public decimal TotalSum => OrderItems.Sum(x => x.TotalSum);
+        public OrderStatus Status { get; set; }
+        public int Id { get; set; }
     }
     public class OrderItemViewModel
     {
@@ -18,6 +20,5 @@ namespace Shop.ViewModels
         public decimal Price { get; set; }
         public int Count { get; set; }
         public decimal TotalSum => Price * Count;
-        public Order order { get; set; }
     }
 }
